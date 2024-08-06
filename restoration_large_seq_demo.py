@@ -127,7 +127,11 @@ def main(arg=None, pipe=None):
     printed_output_size = False
 
     pre_read_iterator = PreRead(img_files, bufsize=args.max_seq_len)
-
+    selected = ['_DSC8679.png', '_DSC8687.png', '_DSC8695.png', '_DSC8703.png', '_DSC8711.png', '_DSC8719.png',
+                '_DSC8727.png', '_DSC8735.png', '_DSC8744.png', '_DSC8752.png', '_DSC8760.png', '_DSC8768.png',
+                '_DSC8776.png', '_DSC8784.png', '_DSC8792.png', '_DSC8800.png', '_DSC8808.png', '_DSC8816.png',
+                '_DSC8824.png', '_DSC8832.png', '_DSC8840.png', '_DSC8848.png', '_DSC8856.png', '_DSC8864.png',
+                '_DSC8872.png']
     for i, img_file in tqdm(enumerate(pre_read_iterator), unit="frame", total=frame_num, maxinterval=1.0):
         frame = mmcv.imread(img_file)
         if frame is None or frame.ndim != 3:
@@ -151,9 +155,8 @@ def main(arg=None, pipe=None):
         if not printed_output_size:
             print("output image size:", PIL.Image.fromarray(output_frame).size, file=sys.stderr)
             printed_output_size = True
-        if i%16==0:
-            png_name = str(8679+i)
-            mmcv.imwrite(output_frame, os.path.join(args.output_dir, "_DSC"+png_name+".png"))  # _DSC8679.png,"_DSC"
+        if os.path.basename(img_file) in selected:
+            mmcv.imwrite(output_frame, os.path.join(args.output_dir, os.path.basename(img_file)))  # _DSC8679.png
 
 if __name__ == "__main__":
     main()
