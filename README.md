@@ -7,18 +7,6 @@ This is the official repository for BasicVSR++. Please feel free to raise issue 
 
 **Acknowedgement**: Our work is built upon [MMEditing](https://github.com/open-mmlab/mmediting). Please follow and star this repository and MMEditing!
 
-## News
-- 2 Dec 2021: Colab demo released <a href="https://colab.research.google.com/drive/1I0kZMM0DQyb4ueHZw5si8fMnRCJ_eUX3?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="google colab logo"></a>
-- 18 Apr 2022: Code released. Also merged into [MMEditing](https://github.com/open-mmlab/mmediting)
-- 5 Feb 2023: The checkpoints for **BasicVSR_2x** is released. 
-
-## TODO
-- [ ] Add BasicVSR_2x architecture
-- [x] ~~Add BasicVSR_2x checkpoints~~
-- [ ] Add data processing scripts
-- [x] ~~Add checkpoints for deblur and denoise~~
-- [x] ~~Add configs for deblur and denoise~~
-- [x] ~~Add Colab demo~~
 
 ## Pre-trained Weights
 You can find the pre-trained weights for **deblurring** and **denoising** in this [link](https://www.dropbox.com/sh/gopo637rbutlxde/AACGnXDlvQMjwfCey3m2g34za?dl=0). For **super-resolution** and **compressed video enhancement**, please refer to [MMEditing](https://github.com/open-mmlab/mmediting/tree/master/configs/restorers/basicvsr_plusplus).
@@ -37,6 +25,11 @@ You can find the pre-trained weights for **deblurring** and **denoising** in thi
 
 For example, you can download the VSR checkpoint [here](https://download.openmmlab.com/mmediting/restorers/basicvsr_plusplus/basicvsr_plusplus_c64n7_8x1_600k_reds4_20210217-db622b2f.pth) to `chkpts/basicvsr_plusplus_reds4.pth`, then run
 ```
+python restoration_large_seq_demo.py configs/basicvsr_plusplus_reds4.py chkpts/basicvsr_plusplus_reds4.pth /cluster/work/cvl/jiezcao/jiameng/3D-Gaussian_slurm/benchmark_360v2_stmt_up/bicycle/test/ours_30000/test_preds_interpolate/ bicycle_SR_x4_png/images
+# /cluster/work/cvl/jiezcao/jiameng/BasicVSR_PlusPlus/bicycle_SR_x4_png/ -->Pseudo-GT
+```
+
+```
 python demo/restoration_video_demo.py configs/basicvsr_plusplus_reds4.py chkpts/basicvsr_plusplus_reds4.pth data/demo_000 results/demo_000
 ```
 You can also replace `${IN_PATH} ${OUT_PATH}` by your video path (e.g., `xxx/yyy.mp4`) to input/output videos.
@@ -47,15 +40,6 @@ You can also replace `${IN_PATH} ${OUT_PATH}` by your video path (e.g., `xxx/yyy
 
 ## Data Preprocessing
 To be added...
-
-## Related Work
-**Our BasicVSR series:**
-1. [BasicVSR: The Search for Essential Components in Video Super-Resolution and Beyond](https://ckkelvinchan.github.io/projects/BasicVSR), CVPR 2021
-2. [Investigating Tradeoffs in Real-World Video Super-Resolution](https://github.com/ckkelvinchan/RealBasicVSR), CVPR 2022
-
-**More about deformable alignment:**
-- [Understanding Deformable Alignment in Video Super-Resolution](https://ckkelvinchan.github.io/projects/DCN), AAAI 2021
-
 
 ## Citations
 ```
