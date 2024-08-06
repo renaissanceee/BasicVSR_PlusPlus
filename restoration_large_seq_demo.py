@@ -96,7 +96,6 @@ def main(arg=None, pipe=None):
         pipe = sys.__stdout__.buffer
 
     model = init_model(args.config, args.checkpoint, device=torch.device("cuda", args.device))
-
     device = next(model.parameters()).device
 
     # build the data pipeline
@@ -107,10 +106,7 @@ def main(arg=None, pipe=None):
     else:
         test_pipeline = model.cfg.val_pipeline
 
-    # 获取目录中所有 PNG 文件，并按文件名排序
     img_files = sorted(glob(os.path.join(args.input_dir, '*.png')))
-
-    # 移除不需要的数据加载管道步骤
     tmp_pipeline = []
     for pipeline in test_pipeline:
         if pipeline["type"] not in ["GenerateSegmentIndices", "LoadImageFromFileList"]:
@@ -150,20 +146,7 @@ def main(arg=None, pipe=None):
         frames = []
         res = model(lq=data_chunk.to(device), test_mode=True)["output"].cpu()#[1, 1, 3, 1652, 2476]
         ratio = res.shape[-1] / data_chunk.shape[-1]# 4
-        # for j in range(res.size(1)):
-        #     # import pdb;pdb.set_trace()
-        #     output_frame = tensor2img(res[:, j, :, :int(input_img_size[1] * ratio), :int(input_img_size[0] * ratio)])
-        #     # output_frame = tensor2img(res[:, j, :, :int(input_img_size[1] * ratio), :int(input_img_size[0] * ratio)])
-        #     if not printed_output_size:
-        #         print("output image size:", PIL.Image.fromarray(output_frame).size, file=sys.stderr)
-        #         printed_output_size = True
-        #     if pipe is not None:
-        #         pipe.write(PIL.Image.fromarray(np.flip(output_frame, axis=2)).tobytes())
-        #         pipe.flush()
-        #     else:
-        #         mmcv.imwrite(output_frame, f"{args.output_dir}/{args.filename_tmpl.format(i + j)}")# "_DSC8679.png"
 
-        # import pdb;pdb.set_trace()
         output_frame = tensor2img(res[:, :, :, :int(input_img_size[0] * ratio), :int(input_img_size[1] * ratio)])
         if not printed_output_size:
             print("output image size:", PIL.Image.fromarray(output_frame).size, file=sys.stderr)
